@@ -1,4 +1,4 @@
-namespace CandyStore.Models;
+namespace CandyStore.ViewModels;
 
 public class ErrorViewModel
 {
