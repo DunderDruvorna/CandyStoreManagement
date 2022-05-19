@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandyStore", "CandyStore\CandyStore.csproj", "{7D52BE1D-99C1-4E7D-AC06-87A88344781A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandyStoreManagement", "CandyStoreManagement\CandyStoreManagement.csproj", "{DA8C5746-851A-4A6D-B842-6EB9BA00C5E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandyStoreManagementAPI", "CandyStoreManagementAPI\CandyStoreManagementAPI.csproj", "{63624BCA-8910-48AD-AC0D-6F1CB6872632}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{7D52BE1D-99C1-4E7D-AC06-87A88344781A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D52BE1D-99C1-4E7D-AC06-87A88344781A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D52BE1D-99C1-4E7D-AC06-87A88344781A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA8C5746-851A-4A6D-B842-6EB9BA00C5E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA8C5746-851A-4A6D-B842-6EB9BA00C5E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA8C5746-851A-4A6D-B842-6EB9BA00C5E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA8C5746-851A-4A6D-B842-6EB9BA00C5E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63624BCA-8910-48AD-AC0D-6F1CB6872632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63624BCA-8910-48AD-AC0D-6F1CB6872632}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63624BCA-8910-48AD-AC0D-6F1CB6872632}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63624BCA-8910-48AD-AC0D-6F1CB6872632}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
