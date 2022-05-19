@@ -1,0 +1,16 @@
+﻿@model ShoppingCartViewModel
+@{
+	var shoppingCartCount = Model.ShoppingCart.GetShoppingCartItems().Count;
+}
+
+@if (shoppingCartCount > 0)
+{
+    <li>
+        <a asp-controller="ShoppingCart" asp-action="Index">
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            <span id="cart-status">
+                @shoppingCartCount
+            </span>
+        </a>
+    </li>
+}
