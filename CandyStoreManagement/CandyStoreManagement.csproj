@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CandyStore\CandyStore.csproj" />
+  </ItemGroup>
+
 </Project>
