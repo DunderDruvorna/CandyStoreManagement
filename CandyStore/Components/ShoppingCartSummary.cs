@@ -1,4 +1,4 @@
-﻿using CandyStore.Models;
+﻿using CandyStore.Data.Models;
 using CandyStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 

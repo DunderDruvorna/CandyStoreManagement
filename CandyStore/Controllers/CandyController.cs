@@ -1,4 +1,5 @@
-﻿using CandyStore.Services;
+﻿using CandyStore.Data.Services.Interfaces;
+using CandyStore.Data.Services.Wrapper;
 using CandyStore.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 

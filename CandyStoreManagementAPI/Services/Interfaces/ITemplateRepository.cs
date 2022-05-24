@@ -1,4 +1,4 @@
-﻿using CandyStore.Models;
+﻿using CandyStore.Data.Models;
 
 namespace CandyStoreManagementAPI.Services.Interfaces;
 

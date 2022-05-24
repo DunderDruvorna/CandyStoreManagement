@@ -1,4 +1,4 @@
-﻿using CandyStore.Models;
+﻿using CandyStore.Data;
 using CandyStoreManagementAPI.Services.Interfaces;
 
 namespace CandyStoreManagementAPI.Services.Wrapper;
