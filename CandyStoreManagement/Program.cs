@@ -1,7 +1,16 @@
+using CandyStore.Data;
+using CandyStore.Data.Services.Wrapper;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default"),
+                                                                           mig => mig.MigrationsAssembly("CandyStore.Data")));
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 
@@ -20,8 +29,6 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

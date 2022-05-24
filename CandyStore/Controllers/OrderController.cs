@@ -1,5 +1,6 @@
-﻿using CandyStore.Models;
-using CandyStore.Services;
+﻿using CandyStore.Data.Models;
+using CandyStore.Data.Services.Interfaces;
+using CandyStore.Data.Services.Wrapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

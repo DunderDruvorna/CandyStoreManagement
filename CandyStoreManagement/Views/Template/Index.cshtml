@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Candy>
+
+@if (Model.Any())
+{
+	<ul>
+		@foreach (var candy in Model)
+		{
+			<li style="margin: 1rem">
+				<img style="max-width: 10vw" src="@candy.ImageURL" alt="@candy.Name"/>
+			</li>
+		}
+	</ul>
+}
+else
+{
+	<h1>Template function returned an empty list.</h1>
+}

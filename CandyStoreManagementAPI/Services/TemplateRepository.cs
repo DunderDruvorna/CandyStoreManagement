@@ -1,4 +1,5 @@
-﻿using CandyStore.Models;
+﻿using CandyStore.Data;
+using CandyStore.Data.Models;
 using CandyStoreManagementAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
