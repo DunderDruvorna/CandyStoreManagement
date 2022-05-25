@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandyStoreManagement", "Can
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandyStoreManagementAPI", "CandyStoreManagementAPI\CandyStoreManagementAPI.csproj", "{63624BCA-8910-48AD-AC0D-6F1CB6872632}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandyStore.Data", "CandyStore.Models\CandyStore.Data.csproj", "{A8A990A9-CC58-47A9-8938-A0788148D27D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandyStore.Data", "CandyStore.Data\CandyStore.Data.csproj", "{A8A990A9-CC58-47A9-8938-A0788148D27D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
