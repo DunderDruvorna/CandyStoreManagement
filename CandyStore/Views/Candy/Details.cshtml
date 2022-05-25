@@ -2,18 +2,26 @@
 
 <h1>@Model.Name</h1>
 <div class="thumbnail">
-    <img alt="@Model.Name" src="@Model.ImageURL" />
-    <div class="caption-full">
-        <h3 class="pull-right">@Model.Price</h3>
-	    <h3><a href="#">@Model.Name"</a></h3>
-        <p>@Model.Description</p>
-    </div>
-    <div class="addToCart">
-        <p class="button">
-            <a class="btn btn-primary"
-               asp-controller="ShoppingCart"
-               asp-action="AddToShoppingCart"
-               asp-route-candyId="@Model.CandyID">Add to Cart</a>
-        </p>
-    </div>
+	<img alt="@Model.Name" src="@Model.ImageURL" />
+	<div class="caption-full">
+		@if (@Model.IsOnSale == false)
+		{
+			<h3 class="pull-right">@((Model.Price ?? 0).ToString("c"))</h3>
+		}
+		@if (@Model.IsOnSale == true)
+		{
+			<h5 class="pull-right text-danger"><s>@((Model.Price ?? 0).ToString("c"))</s></h5>
+			<h3 class="pull-right text-success">@((Model.SalePrice ?? 0).ToString("c"))</h3>
+		}
+		<h3><a href="#">@Model.Name</a></h3>
+		<p>@Model.Description</p>
+	</div>
+	<div class="addToCart">
+		<p class="button">
+			<a class="btn btn-primary"
+			   asp-controller="ShoppingCart"
+			   asp-action="AddToShoppingCart"
+			   asp-route-candyId="@Model.CandyID">Add to Cart</a>
+		</p>
+	</div>
 </div>

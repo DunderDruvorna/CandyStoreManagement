@@ -12,7 +12,6 @@ namespace CandyStoreManagement.Controllers
         {
             _candyRepository = candyRepository; 
         }
-        
 
         public IActionResult Create()
         {
@@ -20,9 +19,18 @@ namespace CandyStoreManagement.Controllers
             candyListViewModel.Candy = _candyRepository.GetAllCandy();
             return View(candyListViewModel);
         }
-        public IActionResult CreateSale()
+        public IActionResult CreateSale(CandyListViewModel newCandySalePrice)
         {
-            return View();
+            var candyToGoOnSale = _candyRepository.GetCandy(newCandySalePrice.SaleCandy.CandyID);
+            if(candyToGoOnSale != null)
+            {
+                candyToGoOnSale.SaleStart = newCandySalePrice.SaleCandy.SaleStart;
+                candyToGoOnSale.SalePrice = newCandySalePrice.SaleCandy.SalePrice;
+                candyToGoOnSale.SaleEnd = newCandySalePrice.SaleCandy.SaleEnd;
+                _candyRepository.UpdateCandy(candyToGoOnSale);
+            }
+            return RedirectToAction("Index","AdminHome"); 
+
         }
     }
 }

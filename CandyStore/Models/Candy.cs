@@ -22,6 +22,6 @@ public partial class Candy
     public DateTime SaleStart { get; set; }
     public DateTime SaleEnd { get; set; }
     [Column(TypeName = "decimal(10,2)")]
-    public decimal SalePrice { get; set; }
+    public decimal? SalePrice { get; set; }
     public bool IsOnSale { get; set; }
 }
