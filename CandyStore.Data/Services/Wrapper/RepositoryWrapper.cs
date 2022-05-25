@@ -1,4 +1,5 @@
 ﻿using CandyStore.Data.Services.Interfaces;
+using CandyStore.Services;
 
 namespace CandyStore.Data.Services.Wrapper;
 

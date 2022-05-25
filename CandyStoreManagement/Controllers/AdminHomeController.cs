@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CandyStoreManagement.Controllers;
 
-public class HomeController : Controller
+public class AdminHomeController : Controller
 {
-    readonly ILogger<HomeController> _logger;
+    readonly ILogger<AdminHomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public AdminHomeController(ILogger<AdminHomeController> logger)
     {
         _logger = logger;
     }

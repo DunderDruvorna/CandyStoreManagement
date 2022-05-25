@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CandyStore.Data\CandyStore.Data.csproj" />
+    <ProjectReference Include="..\CandyStore\CandyStore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
