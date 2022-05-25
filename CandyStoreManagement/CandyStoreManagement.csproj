@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CandyStore.Models\CandyStore.Data.csproj" />
+    <ProjectReference Include="..\CandyStore.Data\CandyStore.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
