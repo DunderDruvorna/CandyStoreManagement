@@ -33,7 +33,7 @@ public class CandyRepository : ICandyRepository
     public Candy UpdateCandy(Candy updatedCandy)
     {
         var OldCandy = _context.Candy.FirstOrDefault(c => c.CandyID == updatedCandy.CandyID);
-        if(OldCandy != null)
+        if (OldCandy != null)
         {
             OldCandy = updatedCandy;
             _context.SaveChanges();
@@ -44,7 +44,7 @@ public class CandyRepository : ICandyRepository
     public void CheckIfCandyStillOnSale()
     {
         var candyNotOnSaleAnymore = _context.Candy.Where(c => c.SaleEnd.Date < DateTime.UtcNow.Date);
-        if(candyNotOnSaleAnymore != null)
+        if (candyNotOnSaleAnymore != null)
         {
             foreach (var candy in candyNotOnSaleAnymore)
             {
@@ -52,14 +52,14 @@ public class CandyRepository : ICandyRepository
                 candy.SaleStart = default(DateTime);
                 candy.SaleEnd = default(DateTime);
                 candy.SalePrice = 0;
-                
+
             }
             _context.SaveChanges();
         }
-        var candyStartSale = _context.Candy.Where(c => c.SaleStart.Date >= DateTime.UtcNow.Date);
-        if(candyStartSale != null)
+        var candyStartSale = _context.Candy.Where(c => c.SaleStart.Date == DateTime.UtcNow.Date);
+        if (candyStartSale != null)
         {
-            foreach(var candy in candyStartSale)
+            foreach (var candy in candyStartSale)
             {
                 candy.IsOnSale = true;
             }
