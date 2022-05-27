@@ -1,0 +1,27 @@
+﻿@model OrderLoggViewModel
+
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">FirstName</th>
+			<th scope="col">LastName</th>
+			<th scope="col">OrderPlaced</th>
+			<th scope="col">OrderTotals</th>
+			<th scope="col">Orderdetails</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var order in @Model.Orders)
+		{
+			<tr>
+				<td>@order.FirstName</td>
+				<td>@order.LastName</td>
+				<td>@order.OrderPlaced</td>
+				<td>@order.OrderTotal</td>
+				<td><a asp-controller="" asp-action="">Details</a></td>
+			</tr>
+		}
+	</tbody>
+</table>

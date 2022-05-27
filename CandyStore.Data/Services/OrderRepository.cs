@@ -1,5 +1,6 @@
 ﻿using CandyStore.Data.Models;
 using CandyStore.Data.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CandyStore.Data.Services;
 
@@ -12,6 +13,11 @@ public class OrderRepository : IOrderRepository
     {
         _context = context;
         _shoppingCart = new ShoppingCart(context);
+    }
+
+    public IEnumerable<Order> GetAllOrders()
+    {
+        return _context.Orders.Include(o => o.OrderDetails);
     }
 
     public void CreateOrder(Order order)
@@ -33,4 +39,5 @@ public class OrderRepository : IOrderRepository
 
         _context.SaveChanges();
     }
+    
 }
