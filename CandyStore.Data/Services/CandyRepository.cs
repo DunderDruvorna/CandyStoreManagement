@@ -1,10 +1,8 @@
 ﻿using CandyStore.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using CandyStore.Data;
-using System.Linq;
 using CandyStore.Data.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace CandyStore.Services;
+namespace CandyStore.Data.Services;
 
 public class CandyRepository : ICandyRepository
 {
@@ -32,6 +30,7 @@ public class CandyRepository : ICandyRepository
         CheckIfCandyStillOnSale();
         return _context.Candy.FirstOrDefault(c => c.CandyID == id);
     }
+
     public Candy UpdateCandy(Candy updatedCandy)
     {
         var OldCandy = _context.Candy.FirstOrDefault(c => c.CandyID == updatedCandy.CandyID);
@@ -41,8 +40,24 @@ public class CandyRepository : ICandyRepository
             _context.SaveChanges();
             return updatedCandy;
         }
+
         return updatedCandy;
     }
+
+    public Candy AddCandy(Candy candy)
+    {
+        var newCandy = _context.Candy.Add(new Candy
+        {
+            Name = candy.Name,
+            CategoryID = candy.CategoryID,
+            Description = candy.Description,
+            Price = candy.Price,
+        });
+        _context.SaveChanges();
+
+        return newCandy.Entity;
+    }
+
     public void CheckIfCandyStillOnSale()
     {
         var candyNotOnSaleAnymore = _context.Candy.Where(c => c.SaleEnd.Date < DateTime.UtcNow.Date);
@@ -51,22 +66,19 @@ public class CandyRepository : ICandyRepository
             foreach (var candy in candyNotOnSaleAnymore)
             {
                 candy.IsOnSale = false;
-                candy.SaleStart = default(DateTime);
-                candy.SaleEnd = default(DateTime);
+                candy.SaleStart = default;
+                candy.SaleEnd = default;
                 candy.SalePrice = 0;
-
             }
+
             _context.SaveChanges();
         }
+
         var candyStartSale = _context.Candy.Where(c => c.SaleStart.Date == DateTime.UtcNow.Date);
         if (candyStartSale != null)
         {
-            foreach (var candy in candyStartSale)
-            {
-                candy.IsOnSale = true;
-            }
+            foreach (var candy in candyStartSale) candy.IsOnSale = true;
             _context.SaveChanges();
         }
-
     }
 }

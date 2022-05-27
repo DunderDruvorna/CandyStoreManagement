@@ -10,9 +10,10 @@ public partial class Candy
     public decimal? Price { get; set; }
     public string? ImageURL { get; set; }
     public string? ImageThumbnailURL { get; set; }
-    public bool IsInStock { get; set; }
-    public int CategoryID { get; set; }
+    public bool IsInStock { get; set; } = true;
+    public int? CategoryID { get; set; }
     public Category? Category { get; set; }
+    public ICollection<Sale> Sales { get; set; }
 }
 
 public partial class Candy
@@ -22,7 +23,7 @@ public partial class Candy
     public DateTime SaleEnd { get; set; }
 
     [Column(TypeName = "decimal(10,2)")]
-    public decimal? SalePrice { get; set; }
+    public decimal SalePrice { get; set; }
 
-    public bool IsOnSale { get; set; }
+    public bool IsOnSale { get; set; } = false;
 }

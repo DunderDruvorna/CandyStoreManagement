@@ -1,0 +1,32 @@
+﻿@model StockViewModel
+
+<table class="table table-hover container">
+	<thead>
+	<tr>
+		<th>#</th>
+		<th>Name</th>
+		<th>Category</th>
+		<th>Description</th>
+		<th>Price</th>
+		<th>Sale</th>
+		<th>In Stock</th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var candy in Model.CandyList)
+	{
+		<tr class="@(!candy.IsInStock ? "table-secondary" : "")">
+			<th>@candy.CandyID</th>
+			<td>@candy.Name</td>
+			<td>@candy.Category?.Name</td>
+			<td>@candy.Description</td>
+			<td class="@(candy.IsOnSale ? "text-success" : "")">@((candy.Price ?? 0).ToString("c"))</td>
+			<td>@candy.IsOnSale.ToString()</td>
+			<td>@candy.IsInStock.ToString()</td>
+		</tr>
+	}
+	</tbody>
+	<tfoot>
+	<partial name="Create" model="@(new CreateCandyViewModel { Candy = new Candy(), Categories = Model.Categories})"/>
+	</tfoot>
+</table>

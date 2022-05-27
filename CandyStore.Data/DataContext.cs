@@ -20,6 +20,7 @@ public class DataContext : IdentityDbContext<IdentityUser>
     public DbSet<ShoppingCartItem> ShoppingCartItems => Set<ShoppingCartItem>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();
+    public DbSet<Sale> Sales => Set<Sale>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
