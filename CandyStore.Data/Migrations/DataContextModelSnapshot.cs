@@ -22,6 +22,21 @@ namespace CandyStore.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CandySale", b =>
+                {
+                    b.Property<int>("CandyID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SalesSaleID")
+                        .HasColumnType("int");
+
+                    b.HasKey("CandyID", "SalesSaleID");
+
+                    b.HasIndex("SalesSaleID");
+
+                    b.ToTable("CandySale");
+                });
+
             modelBuilder.Entity("CandyStore.Data.Models.Candy", b =>
                 {
                     b.Property<int>("CandyID")
@@ -30,7 +45,7 @@ namespace CandyStore.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CandyID"), 1L, 1);
 
-                    b.Property<int>("CategoryID")
+                    b.Property<int?>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -42,27 +57,15 @@ namespace CandyStore.Data.Migrations
                     b.Property<string>("ImageURL")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsInStock")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsOnSale")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Price")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("SaleEnd")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("SalePrice")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<DateTime>("SaleStart")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("Stock")
+                        .HasColumnType("int");
 
                     b.HasKey("CandyID");
 
@@ -78,13 +81,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\chocolateCandy3-small.jpg",
                             ImageURL = "\\img\\chocolet.candy.jpg",
-                            IsInStock = true,
-                            IsOnSale = false,
                             Name = "Assorted Chocolate Candy",
                             Price = 4.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -93,13 +92,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\chocolateCandy-small.jpg",
                             ImageURL = "\\img\\chocolateCandy.jpg",
-                            IsInStock = true,
-                            IsOnSale = true,
                             Name = "Assorted Chocolate Candy",
                             Price = 3.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -108,13 +103,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\chocolateCandy2-small.jpg",
                             ImageURL = "\\img\\chocolateCandy2.jpg",
-                            IsInStock = true,
-                            IsOnSale = true,
                             Name = "Assorted Chocolate Candy",
                             Price = 2.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -123,13 +114,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\FruitCandy-small.jpg",
                             ImageURL = "\\img\\FruitCandy.jpg",
-                            IsInStock = true,
-                            IsOnSale = true,
                             Name = "Assorted Fruit Candy",
                             Price = 6.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -138,13 +125,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\fruitCandy2-small.jpg",
                             ImageURL = "\\img\\fruitCandy2.jpg",
-                            IsInStock = true,
-                            IsOnSale = false,
                             Name = "Assorted Fruit Candy",
                             Price = 3.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -153,13 +136,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\fruitCandy3-small.jpg",
                             ImageURL = "\\img\\fruitCandy3.jpg",
-                            IsInStock = false,
-                            IsOnSale = true,
                             Name = "Assorted Fruit Candy",
                             Price = 4.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -168,13 +147,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\gummyCandy-small.jpg",
                             ImageURL = "\\img\\gummyCandy.jpg",
-                            IsInStock = true,
-                            IsOnSale = false,
                             Name = "Assorted Gummy Candy",
                             Price = 4.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -183,13 +158,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\gummyCandy2-small.jpg",
                             ImageURL = "\\img\\gummyCandy2.jpg",
-                            IsInStock = true,
-                            IsOnSale = true,
                             Name = "Assorted Gummy Candy",
                             Price = 6.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -198,13 +169,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\gummyCandy3-small.jpg",
                             ImageURL = "\\img\\gummyCandy3.jpg",
-                            IsInStock = true,
-                            IsOnSale = true,
                             Name = "Assorted Gummy Candy",
                             Price = 4.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -213,13 +180,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\halloweenCandy-small.jpg",
                             ImageURL = "\\img\\halloweenCandy.jpg",
-                            IsInStock = true,
-                            IsOnSale = true,
                             Name = "Assorted Halloween Candy",
                             Price = 3.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -228,13 +191,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\halloweenCandy2-small.jpg",
                             ImageURL = "\\img\\halloweenCandy2.jpg",
-                            IsInStock = false,
-                            IsOnSale = true,
                             Name = "Assorted Halloween Candy",
                             Price = 5.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -243,13 +202,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\halloweenCandy3-small.jpg",
                             ImageURL = "\\img\\halloweenCandy3.jpg",
-                            IsInStock = true,
-                            IsOnSale = true,
                             Name = "Assorted Halloween Candy",
                             Price = 6.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -258,13 +213,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\hardCandy-small.jpg",
                             ImageURL = "\\img\\hardCandy.jpg",
-                            IsInStock = true,
-                            IsOnSale = false,
                             Name = "Assorted Hard Candy",
                             Price = 3.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -273,13 +224,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\hardCandy2-small.jpg",
                             ImageURL = "\\img\\hardCandy2.jpg",
-                            IsInStock = false,
-                            IsOnSale = true,
                             Name = "Assorted Hard Candy",
                             Price = 2.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         },
                         new
                         {
@@ -288,13 +235,9 @@ namespace CandyStore.Data.Migrations
                             Description = "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...",
                             ImageThumbnailURL = "\\img\\thumbnails\\hardCandy3-small.jpg",
                             ImageURL = "\\img\\hardCandy3.jpg",
-                            IsInStock = true,
-                            IsOnSale = false,
                             Name = "Assorted Hard Candy",
                             Price = 5.95m,
-                            SaleEnd = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SalePrice = 0m,
-                            SaleStart = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Stock = 0
                         });
                 });
 
@@ -423,6 +366,28 @@ namespace CandyStore.Data.Migrations
                     b.HasIndex("OrderID");
 
                     b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("CandyStore.Data.Models.Sale", b =>
+                {
+                    b.Property<int>("SaleID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleID"), 1L, 1);
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("SaleID");
+
+                    b.ToTable("Sales");
                 });
 
             modelBuilder.Entity("CandyStore.Data.Models.ShoppingCartItem", b =>
@@ -648,13 +613,26 @@ namespace CandyStore.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("CandySale", b =>
+                {
+                    b.HasOne("CandyStore.Data.Models.Candy", null)
+                        .WithMany()
+                        .HasForeignKey("CandyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CandyStore.Data.Models.Sale", null)
+                        .WithMany()
+                        .HasForeignKey("SalesSaleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CandyStore.Data.Models.Candy", b =>
                 {
                     b.HasOne("CandyStore.Data.Models.Category", "Category")
                         .WithMany("Candy")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryID");
 
                     b.Navigation("Category");
                 });

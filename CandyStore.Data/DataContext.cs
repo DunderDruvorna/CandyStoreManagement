@@ -42,8 +42,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 1,
                         ImageURL = @"\img\chocolet.candy.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\chocolateCandy3-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = false,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -55,8 +53,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 1,
                         ImageURL = @"\img\chocolateCandy.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\chocolateCandy-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = true,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -68,8 +64,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 1,
                         ImageURL = @"\img\chocolateCandy2.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\chocolateCandy2-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = true,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -81,8 +75,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 2,
                         ImageURL = @"\img\FruitCandy.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\FruitCandy-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = true,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -94,8 +86,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 2,
                         ImageURL = @"\img\fruitCandy2.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\fruitCandy2-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = false,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -107,8 +97,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 2,
                         ImageURL = @"\img\fruitCandy3.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\fruitCandy3-small.jpg",
-                        IsInStock = false,
-                        IsOnSale = true,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -120,8 +108,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 3,
                         ImageURL = @"\img\gummyCandy.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\gummyCandy-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = false,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -133,8 +119,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 3,
                         ImageURL = @"\img\gummyCandy2.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\gummyCandy2-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = true,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -146,8 +130,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 3,
                         ImageURL = @"\img\gummyCandy3.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\gummyCandy3-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = true,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -159,8 +141,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 4,
                         ImageURL = @"\img\halloweenCandy.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\halloweenCandy-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = true,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -172,8 +152,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 4,
                         ImageURL = @"\img\halloweenCandy2.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\halloweenCandy2-small.jpg",
-                        IsInStock = false,
-                        IsOnSale = true,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -185,8 +163,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 4,
                         ImageURL = @"\img\halloweenCandy3.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\halloweenCandy3-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = true,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -198,8 +174,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 5,
                         ImageURL = @"\img\hardCandy.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\hardCandy-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = false,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -211,8 +185,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 5,
                         ImageURL = @"\img\hardCandy2.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\hardCandy2-small.jpg",
-                        IsInStock = false,
-                        IsOnSale = true,
                     });
         modelBuilder.Entity<Candy>()
                     .HasData(new Candy
@@ -224,8 +196,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
                         CategoryID = 5,
                         ImageURL = @"\img\hardCandy3.jpg",
                         ImageThumbnailURL = @"\img\thumbnails\hardCandy3-small.jpg",
-                        IsInStock = true,
-                        IsOnSale = false,
                     });
     }
 }

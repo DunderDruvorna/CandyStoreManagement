@@ -1,6 +1,7 @@
-﻿using CandyStore.Data.Services.Interfaces;
+﻿using CandyStore.Data.Models;
+using CandyStore.Data.Services.Interfaces;
 using CandyStore.Data.Services.Wrapper;
-using CandyStore.ViewModels;
+using CandyStoreManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CandyStoreManagement.Controllers;
@@ -8,29 +9,28 @@ namespace CandyStoreManagement.Controllers;
 public class SaleController : Controller
 {
     readonly ICandyRepository _candyRepository;
+    readonly ISaleRepository _salesRepository;
 
-    public SaleController(IRepositoryWrapper candyRepository)
+    public SaleController(IRepositoryWrapper repository)
     {
-        _candyRepository = candyRepository.Candy;
+        _candyRepository = repository.Candy;
+        _salesRepository = repository.Sales;
     }
 
     public IActionResult Create()
     {
-        var candyListViewModel = new CandyListViewModel();
-        candyListViewModel.Candy = _candyRepository.GetAllCandy();
-        return View(candyListViewModel);
+        return View(new CreateSaleViewModel(_candyRepository.GetAllCandy()));
     }
 
-    public IActionResult CreateSale(CandyListViewModel newCandySalePrice)
+    public IActionResult CreateSale(CreateSaleViewModel sale)
     {
-        var candyToGoOnSale = _candyRepository.GetCandy(newCandySalePrice.SaleCandy.CandyID);
-        if (candyToGoOnSale != null)
+        _salesRepository.CreateSale(new Sale
         {
-            candyToGoOnSale.SaleStart = newCandySalePrice.SaleCandy.SaleStart;
-            candyToGoOnSale.SalePrice = newCandySalePrice.SaleCandy.SalePrice;
-            candyToGoOnSale.SaleEnd = newCandySalePrice.SaleCandy.SaleEnd;
-            _candyRepository.UpdateCandy(candyToGoOnSale);
-        }
+            Discount = sale.Discount,
+            Candy = _candyRepository.GetAllCandy().Where(c => sale.SelectedCandy.Contains(c.CandyID)).ToList(),
+            StartDate = sale.StartDate,
+            EndDate = sale.EndDate,
+        });
 
         return RedirectToAction("Index", "AdminHome");
     }

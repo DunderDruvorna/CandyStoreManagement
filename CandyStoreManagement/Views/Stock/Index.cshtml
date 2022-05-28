@@ -15,18 +15,25 @@
 	<tbody>
 	@foreach (var candy in Model.CandyList)
 	{
-		<tr class="@(!candy.IsInStock ? "table-secondary" : "")">
+		<tr class="@(!(candy.Stock > 0) ? "table-secondary" : "")">
 			<th>@candy.CandyID</th>
 			<td>@candy.Name</td>
 			<td>@candy.Category?.Name</td>
 			<td>@candy.Description</td>
-			<td class="@(candy.IsOnSale ? "text-success" : "")">@((candy.Price ?? 0).ToString("c"))</td>
-			<td>@candy.IsOnSale.ToString()</td>
-			<td>@candy.IsInStock.ToString()</td>
+			@if (!candy.Sales.Any())
+			{
+				<td>@candy.Price.ToString("c")</td>
+			}
+			else
+			{
+				<td class="text-success">@((candy.Price - candy.Price * candy.Sales.Max(s => s.Discount)).ToString("c"))</td>
+			}
+			<td>@(candy.Sales.Any() ? $"{(int)(candy.Sales.Max(s => s.Discount) * 100)}%" : "")</td>
+			<td>@candy.Stock</td>
 		</tr>
 	}
 	</tbody>
 	<tfoot>
-	<partial name="Create" model="@(new CreateCandyViewModel { Candy = new Candy(), Categories = Model.Categories})"/>
+	<partial name="Create" model="@(new CreateCandyViewModel(new Candy(), Model.Categories))"/>
 	</tfoot>
 </table>

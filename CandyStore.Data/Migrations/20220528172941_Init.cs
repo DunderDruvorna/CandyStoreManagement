@@ -84,6 +84,21 @@ namespace CandyStore.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Sales",
+                columns: table => new
+                {
+                    SaleID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sales", x => x.SaleID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -197,15 +212,11 @@ namespace CandyStore.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageThumbnailURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsInStock = table.Column<bool>(type: "bit", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false),
-                    SaleStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SaleEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SalePrice = table.Column<decimal>(type: "decimal(10,2)", nullable: false),
-                    IsOnSale = table.Column<bool>(type: "bit", nullable: false)
+                    CategoryID = table.Column<int>(type: "int", nullable: true),
+                    Stock = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -214,7 +225,30 @@ namespace CandyStore.Data.Migrations
                         name: "FK_Candy_Categories_CategoryID",
                         column: x => x.CategoryID,
                         principalTable: "Categories",
-                        principalColumn: "CategoryID",
+                        principalColumn: "CategoryID");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CandySale",
+                columns: table => new
+                {
+                    CandyID = table.Column<int>(type: "int", nullable: false),
+                    SalesSaleID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CandySale", x => new { x.CandyID, x.SalesSaleID });
+                    table.ForeignKey(
+                        name: "FK_CandySale_Candy_CandyID",
+                        column: x => x.CandyID,
+                        principalTable: "Candy",
+                        principalColumn: "CandyID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CandySale_Sales_SalesSaleID",
+                        column: x => x.SalesSaleID,
+                        principalTable: "Sales",
+                        principalColumn: "SaleID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -281,24 +315,24 @@ namespace CandyStore.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Candy",
-                columns: new[] { "CandyID", "CategoryID", "Description", "ImageThumbnailURL", "ImageURL", "IsInStock", "IsOnSale", "Name", "Price", "SaleEnd", "SalePrice", "SaleStart" },
+                columns: new[] { "CandyID", "CategoryID", "Description", "ImageThumbnailURL", "ImageURL", "Name", "Price", "Stock" },
                 values: new object[,]
                 {
-                    { 1, 1, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\chocolateCandy3-small.jpg", "\\img\\chocolet.candy.jpg", true, false, "Assorted Chocolate Candy", 4.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 1, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\chocolateCandy-small.jpg", "\\img\\chocolateCandy.jpg", true, true, "Assorted Chocolate Candy", 3.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 1, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\chocolateCandy2-small.jpg", "\\img\\chocolateCandy2.jpg", true, true, "Assorted Chocolate Candy", 2.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, 2, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\FruitCandy-small.jpg", "\\img\\FruitCandy.jpg", true, true, "Assorted Fruit Candy", 6.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, 2, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\fruitCandy2-small.jpg", "\\img\\fruitCandy2.jpg", true, false, "Assorted Fruit Candy", 3.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, 2, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\fruitCandy3-small.jpg", "\\img\\fruitCandy3.jpg", false, true, "Assorted Fruit Candy", 4.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, 3, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\gummyCandy-small.jpg", "\\img\\gummyCandy.jpg", true, false, "Assorted Gummy Candy", 4.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, 3, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\gummyCandy2-small.jpg", "\\img\\gummyCandy2.jpg", true, true, "Assorted Gummy Candy", 6.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 9, 3, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\gummyCandy3-small.jpg", "\\img\\gummyCandy3.jpg", true, true, "Assorted Gummy Candy", 4.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 10, 4, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\halloweenCandy-small.jpg", "\\img\\halloweenCandy.jpg", true, true, "Assorted Halloween Candy", 3.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 11, 4, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\halloweenCandy2-small.jpg", "\\img\\halloweenCandy2.jpg", false, true, "Assorted Halloween Candy", 5.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 12, 4, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\halloweenCandy3-small.jpg", "\\img\\halloweenCandy3.jpg", true, true, "Assorted Halloween Candy", 6.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 13, 5, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\hardCandy-small.jpg", "\\img\\hardCandy.jpg", true, false, "Assorted Hard Candy", 3.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 14, 5, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\hardCandy2-small.jpg", "\\img\\hardCandy2.jpg", false, true, "Assorted Hard Candy", 2.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 15, 5, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\hardCandy3-small.jpg", "\\img\\hardCandy3.jpg", true, false, "Assorted Hard Candy", 5.95m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0m, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 1, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\chocolateCandy3-small.jpg", "\\img\\chocolet.candy.jpg", "Assorted Chocolate Candy", 4.95m, 0 },
+                    { 2, 1, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\chocolateCandy-small.jpg", "\\img\\chocolateCandy.jpg", "Assorted Chocolate Candy", 3.95m, 0 },
+                    { 3, 1, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\chocolateCandy2-small.jpg", "\\img\\chocolateCandy2.jpg", "Assorted Chocolate Candy", 2.95m, 0 },
+                    { 4, 2, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\FruitCandy-small.jpg", "\\img\\FruitCandy.jpg", "Assorted Fruit Candy", 6.95m, 0 },
+                    { 5, 2, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\fruitCandy2-small.jpg", "\\img\\fruitCandy2.jpg", "Assorted Fruit Candy", 3.95m, 0 },
+                    { 6, 2, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\fruitCandy3-small.jpg", "\\img\\fruitCandy3.jpg", "Assorted Fruit Candy", 4.95m, 0 },
+                    { 7, 3, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\gummyCandy-small.jpg", "\\img\\gummyCandy.jpg", "Assorted Gummy Candy", 4.95m, 0 },
+                    { 8, 3, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\gummyCandy2-small.jpg", "\\img\\gummyCandy2.jpg", "Assorted Gummy Candy", 6.95m, 0 },
+                    { 9, 3, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\gummyCandy3-small.jpg", "\\img\\gummyCandy3.jpg", "Assorted Gummy Candy", 4.95m, 0 },
+                    { 10, 4, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\halloweenCandy-small.jpg", "\\img\\halloweenCandy.jpg", "Assorted Halloween Candy", 3.95m, 0 },
+                    { 11, 4, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\halloweenCandy2-small.jpg", "\\img\\halloweenCandy2.jpg", "Assorted Halloween Candy", 5.95m, 0 },
+                    { 12, 4, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\halloweenCandy3-small.jpg", "\\img\\halloweenCandy3.jpg", "Assorted Halloween Candy", 6.95m, 0 },
+                    { 13, 5, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\hardCandy-small.jpg", "\\img\\hardCandy.jpg", "Assorted Hard Candy", 3.95m, 0 },
+                    { 14, 5, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\hardCandy2-small.jpg", "\\img\\hardCandy2.jpg", "Assorted Hard Candy", 2.95m, 0 },
+                    { 15, 5, "Lorem ipsum dolor sit amet, consectetur adiposcing elit, sed do eiusmod tempor...", "\\img\\thumbnails\\hardCandy3-small.jpg", "\\img\\hardCandy3.jpg", "Assorted Hard Candy", 5.95m, 0 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -346,6 +380,11 @@ namespace CandyStore.Data.Migrations
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CandySale_SalesSaleID",
+                table: "CandySale",
+                column: "SalesSaleID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_CandyID",
                 table: "OrderDetails",
                 column: "CandyID");
@@ -379,6 +418,9 @@ namespace CandyStore.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CandySale");
+
+            migrationBuilder.DropTable(
                 name: "OrderDetails");
 
             migrationBuilder.DropTable(
@@ -389,6 +431,9 @@ namespace CandyStore.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Sales");
 
             migrationBuilder.DropTable(
                 name: "Orders");

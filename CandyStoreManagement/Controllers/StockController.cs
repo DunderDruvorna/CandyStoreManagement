@@ -19,11 +19,8 @@ public class StockController : Controller
 
     public IActionResult Index()
     {
-        var model = new StockViewModel
-        {
-            CandyList = _candyRepository.GetAllCandy().ToList(),
-            Categories = _categoryRepository.GetCategories().ToList(),
-        };
+        var model = new StockViewModel(_candyRepository.GetAllCandy().ToList(), _categoryRepository.GetCategories().ToList());
+
         return View(model);
     }
 

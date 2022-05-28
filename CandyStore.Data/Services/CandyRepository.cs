@@ -15,33 +15,17 @@ public class CandyRepository : ICandyRepository
 
     public IEnumerable<Candy> GetAllCandy()
     {
-        CheckIfCandyStillOnSale();
-        return _context.Candy.Include(c => c.Category);
+        return _context.Candy.Include(c => c.Category).Include(c => c.Sales);
     }
 
     public IEnumerable<Candy> GetCandyOnSale()
     {
-        CheckIfCandyStillOnSale();
-        return _context.Candy.Include(c => c.Category).Where(p => p.IsOnSale);
+        return _context.Candy.Where(c => c.Sales.Any());
     }
 
     public Candy? GetCandy(int id)
     {
-        CheckIfCandyStillOnSale();
         return _context.Candy.FirstOrDefault(c => c.CandyID == id);
-    }
-
-    public Candy UpdateCandy(Candy updatedCandy)
-    {
-        var OldCandy = _context.Candy.FirstOrDefault(c => c.CandyID == updatedCandy.CandyID);
-        if (OldCandy != null)
-        {
-            OldCandy = updatedCandy;
-            _context.SaveChanges();
-            return updatedCandy;
-        }
-
-        return updatedCandy;
     }
 
     public Candy AddCandy(Candy candy)
@@ -58,27 +42,16 @@ public class CandyRepository : ICandyRepository
         return newCandy.Entity;
     }
 
-    public void CheckIfCandyStillOnSale()
+    public Candy UpdateCandy(Candy updatedCandy)
     {
-        var candyNotOnSaleAnymore = _context.Candy.Where(c => c.SaleEnd.Date < DateTime.UtcNow.Date);
-        if (candyNotOnSaleAnymore != null)
+        var OldCandy = _context.Candy.FirstOrDefault(c => c.CandyID == updatedCandy.CandyID);
+        if (OldCandy != null)
         {
-            foreach (var candy in candyNotOnSaleAnymore)
-            {
-                candy.IsOnSale = false;
-                candy.SaleStart = default;
-                candy.SaleEnd = default;
-                candy.SalePrice = 0;
-            }
-
+            OldCandy = updatedCandy;
             _context.SaveChanges();
+            return updatedCandy;
         }
 
-        var candyStartSale = _context.Candy.Where(c => c.SaleStart.Date == DateTime.UtcNow.Date);
-        if (candyStartSale != null)
-        {
-            foreach (var candy in candyStartSale) candy.IsOnSale = true;
-            _context.SaveChanges();
-        }
+        return updatedCandy;
     }
 }

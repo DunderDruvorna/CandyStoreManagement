@@ -81,6 +81,6 @@ public class ShoppingCart
 
     public decimal GetShoppingCartTotal()
     {
-        return _context.ShoppingCartItems.Where(c => c.ShoppingCartID == ShoppingCartID).Select(c => c.Candy.Price * c.Amount).Sum() ?? 0;
+        return _context.ShoppingCartItems.Where(c => c.ShoppingCartID == ShoppingCartID).Select(c => c.Candy.Price * c.Amount).Sum();
     }
 }
