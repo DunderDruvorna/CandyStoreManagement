@@ -4,16 +4,11 @@
     <div class="thumbnail">
         <img src="@Model.ImageThumbnailURL" alt="Candy" />
         <div class="caption">
-	        @if (Model.Sales.Any())
+	        @if (Model.ActiveSale is not null)
 	        {
 		        <h5 class="pull-right text-danger"><s>@(Model.Price.ToString("c"))</s></h5>
-		        <h3 class="pull-right text-success">@((Model.Price - Model.Price * Model.Sales.Max(s => s.Discount)).ToString("c"))</h3>
 	        }
-	        else
-	        {
-		        <h3 class="pull-right">@(Model.Price.ToString("c"))</h3>
-	        }
-
+	        <h3 class="pull-right @(Model.ActiveSale is not null ? "text-success" : "")">@(Model.ActivePrice.ToString("c"))</h3>
             <h3><a asp-controller="Candy" asp-action="Details" asp-route-candyID="@Model.CandyID">@Model.Name</a></h3>
             <p>@Model.Description</p>
         </div>

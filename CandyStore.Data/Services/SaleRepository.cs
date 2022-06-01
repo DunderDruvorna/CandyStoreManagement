@@ -52,15 +52,7 @@ public class SaleRepository : ISaleRepository
 
     public Sale? SetSaleDiscount(int saleID, decimal discount)
     {
-        var sale = _context.Sales.FirstOrDefault(s => s.SaleID == saleID);
-
-        if (sale is null)
-            return sale;
-
-        sale.Discount = discount;
-        _context.SaveChanges();
-
-        return sale;
+        throw new NotImplementedException();
     }
 
     public Sale? SetSaleStart(int saleID, DateTime date)
@@ -115,5 +107,23 @@ public class SaleRepository : ISaleRepository
         _context.SaveChanges();
 
         return true;
+    }
+
+    public IEnumerable<Sale> GetSales()
+    {
+        return _context.Sales.Include(s => s.Candy).ToList();
+    }
+
+    public Sale? SetSaleDiscount(int saleID, int discount)
+    {
+        var sale = _context.Sales.FirstOrDefault(s => s.SaleID == saleID);
+
+        if (sale is null)
+            return null;
+
+        sale.Discount = discount;
+        _context.SaveChanges();
+
+        return sale;
     }
 }

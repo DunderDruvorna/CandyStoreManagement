@@ -1,5 +1,7 @@
 ﻿@model StockViewModel
 
+<h1 class="display-4">Stock</h1>
+
 <table class="table table-hover container">
 	<thead>
 	<tr>
@@ -10,30 +12,41 @@
 		<th>Price</th>
 		<th>Sale</th>
 		<th>In Stock</th>
+		<th></th>
 	</tr>
 	</thead>
 	<tbody>
 	@foreach (var candy in Model.CandyList)
 	{
-		<tr class="@(!(candy.Stock > 0) ? "table-secondary" : "")">
-			<th>@candy.CandyID</th>
-			<td>@candy.Name</td>
-			<td>@candy.Category?.Name</td>
-			<td>@candy.Description</td>
-			@if (!candy.Sales.Any())
-			{
-				<td>@candy.Price.ToString("c")</td>
-			}
-			else
-			{
-				<td class="text-success">@((candy.Price - candy.Price * candy.Sales.Max(s => s.Discount)).ToString("c"))</td>
-			}
-			<td>@(candy.Sales.Any() ? $"{(int)(candy.Sales.Max(s => s.Discount) * 100)}%" : "")</td>
-			<td>@candy.Stock</td>
+		<tr class="@(candy.Stock <= 0 ? "table-secondary" : "")">
+			<th>
+				@candy.CandyID
+			</th>
+			<td>
+				@candy.Name
+			</td>
+			<td>
+				@candy.Category?.Name
+			</td>
+			<td>
+				@candy.Description
+			</td>
+			<td class="@(candy.ActiveSale is not null ? "text-success" : "")">
+				@candy.ActivePrice.ToString("c")
+			</td>
+			<td>
+				@candy.ActiveSale?.Discount
+			</td>
+			<td>
+				@candy.Stock
+			</td>
+			<td>
+				@Html.ActionLink("Remove", "Remove", new { id = candy.CandyID })
+			</td>
 		</tr>
 	}
 	</tbody>
 	<tfoot>
-	<partial name="Create" model="@(new CreateCandyViewModel(new Candy(), Model.Categories))"/>
+	<partial name="Create" model="@(new CreateCandyViewModel(Model.Categories))"/>
 	</tfoot>
 </table>

@@ -26,7 +26,26 @@ public class StockController : Controller
 
     public IActionResult Create(Candy candy)
     {
-        _candyRepository.AddCandy(candy);
+        try
+        {
+            _candyRepository.AddCandy(candy);
+        }
+        catch
+        {
+            return RedirectToAction("Index");
+        }
+
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Edit(StockViewModel model)
+    {
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Remove(int id)
+    {
+        _candyRepository.RemoveCandy(id);
 
         return RedirectToAction("Index");
     }

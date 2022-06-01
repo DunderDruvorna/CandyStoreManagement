@@ -3,12 +3,17 @@
 <tr>
 	@using (Html.BeginForm("Create", "Stock", Model.Candy, FormMethod.Post))
 	{
-		<th><input type="submit" value="+"/></th>
+		<th></th>
 		<td>@Html.EditorFor(model => model.Candy.Name)</td>
 		<td>@Html.DropDownListFor(model => model.Candy.CategoryID,
 		                          new SelectList(Model.Categories, "CategoryID", "Name"),
 		                          "Select Category")</td>
 		<td>@Html.EditorFor(model => model.Candy.Description)</td>
 		<td>@Html.TextBoxFor(model => model.Candy.Price, new { type = "number", min = "0", step = "0.05" })</td>
+		<td></td>
+		<td></td>
+		<td>
+			<input type="submit" value="Create"/>
+		</td>
 	}
 </tr>

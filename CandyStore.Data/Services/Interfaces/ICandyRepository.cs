@@ -9,4 +9,5 @@ public interface ICandyRepository
     Candy? GetCandy(int id);
     Candy UpdateCandy(Candy updatedCandy);
     Candy AddCandy(Candy candy);
+    Candy? RemoveCandy(int id);
 }

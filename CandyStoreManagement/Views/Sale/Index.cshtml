@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Sale>
+
+<h1 class="display-4">Sales</h1>
+
+<table class="table table-hover container">
+	<thead>
+	<tr>
+		<th>#</th>
+		<th>Discount</th>
+		<th>Candy</th>
+		<th>Start</th>
+		<th>End</th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var sale in Model)
+	{
+		<tr class="@(!sale.IsActive ? "table-secondary" : "")">
+			<th>
+				@sale.SaleID
+			</th>
+			<td>
+				@sale.Discount%
+			</td>
+			<td>
+				@sale.Candy.Count
+			</td>
+			<td>
+				@sale.StartDate.ToShortDateString()
+			</td>
+			<td>
+				@sale.EndDate.ToShortDateString()
+			</td>
+			<td>
+				@Html.ActionLink("Remove", "Remove", new { id = sale.SaleID })
+			</td>
+		</tr>
+	}
+	</tbody>
+	<tfoot>
+	@*<partial name="Create" model="@(new CreateCandyViewModel(Model.Categories))"/>*@
+	</tfoot>
+</table>

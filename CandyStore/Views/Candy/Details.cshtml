@@ -4,10 +4,10 @@
 <div class="thumbnail">
 	<img alt="@Model.Name" src="@Model.ImageURL" />
 	<div class="caption-full">
-		@if (Model.Sales.Any())
+		@if (Model.Sales.Any(s => s.IsActive))
 		{
 			<h5 class="pull-right text-danger"><s>@(Model.Price.ToString("c"))</s></h5>
-			<h3 class="pull-right text-success">@((Model.Price - Model.Price * Model.Sales.Max(s => s.Discount)).ToString("c"))</h3>
+			<h3 class="pull-right text-success">@(Model.ActivePrice.ToString("c"))</h3>
 		}
 		else
 		{

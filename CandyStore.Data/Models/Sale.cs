@@ -8,10 +8,14 @@ public class Sale
     [Key]
     public int SaleID { get; set; }
 
-    [Range(0, 1)]
-    public decimal Discount { get; set; } // 0 = No sale, 1 = Free
+    [Range(1, 100)]
+    public int Discount { get; set; } = 1;
+
+    [NotMapped]
+    public decimal PriceMultiplier => 1 - (decimal)Discount / 100;
 
     public ICollection<Candy> Candy { get; set; } = default!;
+
     public DateTime StartDate { get; set; } = DateTime.Today;
     public DateTime EndDate { get; set; } = DateTime.Today.AddDays(7);
 

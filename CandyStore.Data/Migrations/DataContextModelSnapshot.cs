@@ -34,7 +34,7 @@ namespace CandyStore.Data.Migrations
 
                     b.HasIndex("SalesSaleID");
 
-                    b.ToTable("CandySale");
+                    b.ToTable("CandySale", (string)null);
                 });
 
             modelBuilder.Entity("CandyStore.Data.Models.Candy", b =>
@@ -71,7 +71,7 @@ namespace CandyStore.Data.Migrations
 
                     b.HasIndex("CategoryID");
 
-                    b.ToTable("Candy");
+                    b.ToTable("Candy", (string)null);
 
                     b.HasData(
                         new
@@ -258,7 +258,7 @@ namespace CandyStore.Data.Migrations
 
                     b.HasKey("CategoryID");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasData(
                         new
@@ -336,7 +336,7 @@ namespace CandyStore.Data.Migrations
 
                     b.HasKey("OrderID");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("CandyStore.Data.Models.OrderDetail", b =>
@@ -365,7 +365,7 @@ namespace CandyStore.Data.Migrations
 
                     b.HasIndex("OrderID");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("CandyStore.Data.Models.Sale", b =>
@@ -376,8 +376,8 @@ namespace CandyStore.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleID"), 1L, 1);
 
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Discount")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
@@ -387,7 +387,7 @@ namespace CandyStore.Data.Migrations
 
                     b.HasKey("SaleID");
 
-                    b.ToTable("Sales");
+                    b.ToTable("Sales", (string)null);
                 });
 
             modelBuilder.Entity("CandyStore.Data.Models.ShoppingCartItem", b =>
@@ -412,7 +412,7 @@ namespace CandyStore.Data.Migrations
 
                     b.HasIndex("CandyID");
 
-                    b.ToTable("ShoppingCartItems");
+                    b.ToTable("ShoppingCartItems", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

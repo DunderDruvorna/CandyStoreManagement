@@ -54,4 +54,15 @@ public class CandyRepository : ICandyRepository
 
         return updatedCandy;
     }
+
+    public Candy? RemoveCandy(int id)
+    {
+        var candy = _context.Candy.FirstOrDefault(c => c.CandyID == id);
+        if (candy is null) return null;
+
+        _context.Candy.Remove(candy);
+        _context.SaveChanges();
+
+        return candy;
+    }
 }

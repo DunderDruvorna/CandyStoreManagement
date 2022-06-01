@@ -19,9 +19,9 @@
                                          asp-route-candyID="@item.Candy.CandyID" alt="">Decrease Amount</a></td>
                 <td class="text-center">@item.Amount</td>
                 <td class="text-left">@item.Candy.Name</td>
-                <td class="text-right">@(item.Candy.Price.ToString("c"))</td>
+                <td class="text-right">@(item.Candy.ActivePrice.ToString("c"))</td>
                 <td class="text-right">
-                    @((item.Amount * item.Candy.Price).ToString("c"))
+                    @((item.Amount * item.Candy.ActivePrice).ToString("c"))
                 </td>
             </tr>
         }

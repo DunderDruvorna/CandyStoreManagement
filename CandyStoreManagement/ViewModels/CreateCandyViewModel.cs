@@ -4,12 +4,11 @@ namespace CandyStoreManagement.ViewModels;
 
 public class CreateCandyViewModel
 {
-    public CreateCandyViewModel(Candy candy, IEnumerable<Category> categories)
+    public CreateCandyViewModel(IEnumerable<Category> categories)
     {
-        Candy = candy;
         Categories = categories;
     }
 
-    public Candy Candy { get; set; }
+    public Candy Candy { get; set; } = new();
     public IEnumerable<Category> Categories { get; set; }
 }

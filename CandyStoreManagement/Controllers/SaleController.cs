@@ -17,9 +17,15 @@ public class SaleController : Controller
         _salesRepository = repository.Sales;
     }
 
+    public IActionResult Index()
+    {
+        return View(_salesRepository.GetSales());
+    }
+
     public IActionResult Create()
     {
-        return View(new CreateSaleViewModel(_candyRepository.GetAllCandy()));
+        ViewBag.AllCandy = _candyRepository.GetAllCandy();
+        return View(new CreateSaleViewModel());
     }
 
     public IActionResult CreateSale(CreateSaleViewModel sale)
@@ -27,11 +33,17 @@ public class SaleController : Controller
         _salesRepository.CreateSale(new Sale
         {
             Discount = sale.Discount,
-            Candy = _candyRepository.GetAllCandy().Where(c => sale.SelectedCandy.Contains(c.CandyID)).ToList(),
+            Candy = sale.SelectedCandy.Select(c => _candyRepository.GetCandy(c) ?? new Candy()).ToList(),
             StartDate = sale.StartDate,
             EndDate = sale.EndDate,
         });
 
-        return RedirectToAction("Index", "AdminHome");
+        return RedirectToAction("Index", "Sale");
+    }
+
+    public IActionResult Remove(int id)
+    {
+        _salesRepository.RemoveSale(id);
+        return RedirectToAction("Index", "Sale");
     }
 }
