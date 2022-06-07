@@ -1,4 +1,5 @@
 using CandyStore.Data;
+using CandyStore.Data.Models;
 using CandyStore.Data.Services.Wrapper;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Default"),
                                                                            mig => mig.MigrationsAssembly("CandyStore.Data")));
+builder.Services.AddScoped(ShoppingCart.GetCart);
+builder.Services.AddSession();
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -24,6 +27,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 
