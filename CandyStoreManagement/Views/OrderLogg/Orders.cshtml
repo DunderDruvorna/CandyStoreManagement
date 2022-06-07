@@ -1,0 +1,48 @@
+﻿@model OrderLoggViewModel
+
+
+<form asp-controller="OrderLogg" asp-action="Orders" method="post">
+	<select asp-for="@Model.currency" class="pull-right">
+		<option value="SEK">SEK</option>
+		<option value="EUR">EUR</option>
+		<option value="PLN">PLN</option>
+		<option value="NOK">NOK</option>
+		<option value="JPY">JPY</option>
+		<option value="ISK">ISK</option>
+		<option value="GBP">GBP</option>
+		<option value="DKK">DKK</option>
+	</select>
+	<div class="mb-3">
+		<button type="submit" class="btn btn-primary">Change Currency</button>
+	</div>
+</form>
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">FirstName</th>
+			<th scope="col">LastName</th>
+			<th scope="col">OrderPlaced</th>
+			<th scope="col">OrderTotals</th>
+			<th scope="col">Orderdetails</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var order in @Model.Orders)
+		{
+			<tr>
+				<td>@order.FirstName</td>
+				<td>@order.LastName</td>
+				<td>@order.OrderPlaced</td>
+				@if(@Model.currencyExchangeRate != null)
+				{
+					<td>@(@order.OrderTotal * @Model.currencyExchangeRate) @Model.currency</td>
+				}
+				@if(@Model.currencyExchangeRate == null)
+				{
+					<td>@order.OrderTotal</td>
+				}
+				<td><a asp-controller="OrderLogg" asp-action="OrderDetails" asp-route-id="@order.OrderID" asp-route-currency="@Model.currency">Details</a></td>
+			</tr>
+		}
+	</tbody>
+</table>

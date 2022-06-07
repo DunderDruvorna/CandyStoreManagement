@@ -1,0 +1,61 @@
+﻿@model OrderLoggViewModel
+
+
+
+
+<div class="pull-right mt-2 col-sm-4 col-la-4 col-md-4">
+	<div class="caption">
+		<h5>ORDER DETAILS:</h5>
+		<p class="pull-right">@Model.Order.FirstName @Model.Order.LastName</p>
+		<p class="pull-right">@Model.Order.Address</p>
+		<p class="pull-right">@Model.Order.ZipCode @Model.Order.City</p>
+		<p class="pull-right">@Model.Order.PhoneNumber</p>
+	</div>
+</div>
+
+
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">Candyname</th>
+			<th scope="col">Amount</th>
+			<th scope="col">Price</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var order in @Model.OrderDetails)
+		{
+			<tr>
+				<td>@order.Candy.Name</td>
+				<td>@order.Amount</td>
+				@if (@Model.currencyExchangeRate != null)
+				{
+					@if(@order.Candy.IsOnSale == true)
+					{
+						<td class="text-danger">@(order.Candy.SalePrice * @Model.currencyExchangeRate) @Model.currency</td>
+					} 
+					@if(@order.Candy.IsOnSale != true)
+					{
+						<td>@(order.Price * @Model.currencyExchangeRate) @Model.currency</td>
+					}
+				}
+				@if(@Model.currencyExchangeRate == null)
+				{
+					@if(@order.Candy.IsOnSale == true)
+					{
+						<td class="text-danger">@order.Candy.SalePrice</td>
+					} 
+					@if(@order.Candy.IsOnSale != true)
+					{
+						<td>@order.Price</td>
+					}
+				}
+				
+				
+			</tr>
+		}
+
+	</tbody>
+</table>
