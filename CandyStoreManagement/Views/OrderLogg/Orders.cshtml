@@ -35,7 +35,8 @@
 				<td>@order.OrderPlaced</td>
 				@if(@Model.currencyExchangeRate != null)
 				{
-					<td>@(@order.OrderTotal * @Model.currencyExchangeRate) @Model.currency</td>
+					var currencyTotal = order.OrderTotal * @Model.currencyExchangeRate;
+					<td>@String.Format("{0:0.00}", currencyTotal) @Model.currency</td>
 				}
 				@if(@Model.currencyExchangeRate == null)
 				{
