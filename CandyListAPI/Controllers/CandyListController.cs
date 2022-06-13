@@ -1,5 +1,7 @@
-﻿using CandyStore.Data.Models;
+﻿using CandyStore.Data;
+using CandyStore.Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CandyListAPI.Controllers
 {
@@ -7,13 +9,14 @@ namespace CandyListAPI.Controllers
     [Route("[controller]")]
     public class CandyListController : ControllerBase
     {
-        readonly IHttpContextAccessor _contextAccessor;
+        private readonly DataContext _context;
 
-        public CandyListController(IHttpContextAccessor context) => _contextAccessor = context;
+
+        public CandyListController(IHttpContextAccessor context) => _context = (DataContext?)context;
 
         [HttpGet]
         public async Task<IEnumerable<Candy>> Get()
-            => await _contextAccessor.Candy.ToListAsync();
+            => await _context.Candy.ToListAsync();
 
 
         [HttpGet("id")]
@@ -21,7 +24,7 @@ namespace CandyListAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
-            var issue = await _contextAccessor.Candy.FindAsync(id);
+            var issue = await _context.Candy.FindAsync(id);
             return issue == null ? NotFound() : Ok(issue);
         }
 
@@ -29,8 +32,8 @@ namespace CandyListAPI.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create(Candy candy)
         {
-            await _contextAccessor.Candy.AddAsync(Candy);
-            await _contextAccessor.SaveChangesAsync();
+            await _context.Candy.AddAsync(candy);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetById), new { id = candy.CandyID }, candy);
         }
@@ -42,8 +45,8 @@ namespace CandyListAPI.Controllers
         {
             if (id != candy.CandyID) return BadRequest();
 
-            _contextAccessor.Entry(candy).State = EntityState.Modified;
-            await _contextAccessor.SaveChangesAsyncy();
+            _context.Entry(candy).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
             return NoContent();
 
@@ -54,11 +57,11 @@ namespace CandyListAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(int id)
         {
-            var issueToDelete = await _contextAccessor.Candy.FindAsync(id);
+            var issueToDelete = await _context.Candy.FindAsync(id);
             if (issueToDelete != null) return NotFound();
 
-            _contextAccessor.Candy.Remove(issueToDelete);
-            await _contextAccessor.SaveChangesAsync();
+            _context.Candy.Remove(issueToDelete);
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
