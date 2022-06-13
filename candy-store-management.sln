@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandyStoreManagementAPI", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandyStore.Data", "CandyStore.Data\CandyStore.Data.csproj", "{A8A990A9-CC58-47A9-8938-A0788148D27D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CandyListAPI", "CandyListAPI\CandyListAPI.csproj", "{6DFB8373-5A7B-4715-AE1C-CA7FE83AC922}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A8A990A9-CC58-47A9-8938-A0788148D27D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8A990A9-CC58-47A9-8938-A0788148D27D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8A990A9-CC58-47A9-8938-A0788148D27D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DFB8373-5A7B-4715-AE1C-CA7FE83AC922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DFB8373-5A7B-4715-AE1C-CA7FE83AC922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DFB8373-5A7B-4715-AE1C-CA7FE83AC922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DFB8373-5A7B-4715-AE1C-CA7FE83AC922}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
