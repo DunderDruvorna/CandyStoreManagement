@@ -12,7 +12,7 @@ namespace CandyListAPI.Controllers
         private readonly DataContext _context;
 
 
-        public CandyListController(IHttpContextAccessor context) => _context = (DataContext?)context;
+        public CandyListController(IHttpContextAccessor context) => _context = (DataContext)context;
 
         [HttpGet]
         public async Task<IEnumerable<Candy>> Get()
@@ -55,10 +55,11 @@ namespace CandyListAPI.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int CandyID)
         {
-            var issueToDelete = await _context.Candy.FindAsync(id);
+            var issueToDelete = await _context.Candy.FindAsync(CandyID);
             if (issueToDelete != null) return NotFound();
+
 
             _context.Candy.Remove(issueToDelete);
             await _context.SaveChangesAsync();
