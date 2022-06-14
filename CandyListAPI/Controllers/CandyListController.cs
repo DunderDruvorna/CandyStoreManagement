@@ -11,15 +11,17 @@ namespace CandyListAPI.Controllers
     {
         private readonly DataContext _context;
 
-
-        public CandyListController(IHttpContextAccessor context) => _context = (DataContext)context;
+        public CandyListController(DataContext context)
+        {
+            _context = context;
+        }
 
         [HttpGet]
         public async Task<IEnumerable<Candy>> Get()
             => await _context.Candy.ToListAsync();
 
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(Candy), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
