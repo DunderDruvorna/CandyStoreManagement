@@ -1,38 +1,45 @@
-﻿using CandyStore.Data.Services.Interfaces;
+﻿using CandyStore.Data.Models;
+using CandyStore.Data.Services.Interfaces;
 using CandyStore.Data.Services.Wrapper;
-using CandyStore.Services;
-using CandyStore.ViewModels;
+using CandyStoreManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CandyStoreManagement.Controllers
+namespace CandyStoreManagement.Controllers;
+
+public class SaleController : Controller
 {
-    public class SaleController : Controller
+    readonly ICandyRepository _candyRepository;
+    readonly ICategoryRepository _categoriesRepository;
+    readonly ISaleRepository _salesRepository;
+
+    public SaleController(IRepositoryWrapper repository)
     {
-        private readonly ICandyRepository _candyRepository;
+        _candyRepository = repository.Candy;
+        _salesRepository = repository.Sales;
+        _categoriesRepository = repository.Categories;
+    }
 
-        public SaleController(IRepositoryWrapper candyRepository)
-        {
-            _candyRepository = candyRepository.Candy; 
-        }
+    public IActionResult Index()
+    {
+        ViewBag.Categories = _categoriesRepository.GetCategories();
+        return View(_salesRepository.GetSales());
+    }
 
-        public IActionResult Create()
-        {
-            var candyListViewModel = new CandyListViewModel();
-            candyListViewModel.Candy = _candyRepository.GetAllCandy();
-            return View(candyListViewModel);
-        }
-        public IActionResult CreateSale(CandyListViewModel newCandySalePrice)
-        {
-            var candyToGoOnSale = _candyRepository.GetCandy(newCandySalePrice.SaleCandy.CandyID);
-            if(candyToGoOnSale != null)
-            {
-                candyToGoOnSale.SaleStart = newCandySalePrice.SaleCandy.SaleStart;
-                candyToGoOnSale.SalePrice = newCandySalePrice.SaleCandy.SalePrice;
-                candyToGoOnSale.SaleEnd = newCandySalePrice.SaleCandy.SaleEnd;
-                _candyRepository.UpdateCandy(candyToGoOnSale);
-            }
-            return RedirectToAction("Index","AdminHome"); 
+    public IActionResult Create()
+    {
+        return View(new CreateSaleViewModel(_candyRepository.GetAllCandy()));
+    }
 
-        }
+    public IActionResult CreateSale(CreateSaleViewModel createSaleModel)
+    {
+        _salesRepository.CreateSale(new Sale
+        {
+            Discount = createSaleModel.Sale.Discount,
+            Candy = createSaleModel.SelectedCandy.Select(c => _candyRepository.GetCandy(c) ?? new Candy()).ToList(),
+            StartDate = createSaleModel.Sale.StartDate,
+            EndDate = createSaleModel.Sale.EndDate,
+        });
+
+        return RedirectToAction("Index");
     }
 }

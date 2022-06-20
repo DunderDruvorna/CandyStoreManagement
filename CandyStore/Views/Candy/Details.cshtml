@@ -2,16 +2,16 @@
 
 <h1>@Model.Name</h1>
 <div class="thumbnail">
-	<img alt="@Model.Name" src="@Model.ImageURL" />
+	<img alt="@Model.Name" src="@Model.ImageURL"/>
 	<div class="caption-full">
-		@if (@Model.IsOnSale == false)
+		@if (Model.ActiveSale is not null)
 		{
-			<h3 class="pull-right">@((Model.Price ?? 0).ToString("c"))</h3>
+			<h5 class="pull-right text-danger"><s>@(Model.Price.ToString("c"))</s></h5>
+			<h3 class="pull-right text-success">@(Model.ActivePrice.ToString("c"))</h3>
 		}
-		@if (@Model.IsOnSale == true)
+		else
 		{
-			<h5 class="pull-right text-danger"><s>@((Model.Price ?? 0).ToString("c"))</s></h5>
-			<h3 class="pull-right text-success">@((Model.SalePrice ?? 0).ToString("c"))</h3>
+			<h3 class="pull-right">@(Model.Price.ToString("c"))</h3>
 		}
 		<h3><a href="#">@Model.Name</a></h3>
 		<p>@Model.Description</p>

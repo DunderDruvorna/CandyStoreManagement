@@ -18,47 +18,47 @@
 
 <table class="table">
 	<thead>
-		<tr>
-			<th scope="col">Candyname</th>
-			<th scope="col">Amount</th>
-			<th scope="col">Price</th>
-		</tr>
+	<tr>
+		<th scope="col">Candyname</th>
+		<th scope="col">Amount</th>
+		<th scope="col">Price</th>
+	</tr>
 	</thead>
 	<tbody>
-		@foreach (var order in @Model.OrderDetails)
-		{
-			<tr>
-				<td>@order.Candy.Name</td>
-				<td>@order.Amount</td>
-				@if (@Model.currencyExchangeRate != null)
+	@foreach (var order in @Model.OrderDetails)
+	{
+		<tr>
+			<td>@order.Candy.Name</td>
+			<td>@order.Amount</td>
+			@if (@Model.currencyExchangeRate != null)
+			{
+				@if (@order.Candy.ActiveSale is not null)
 				{
-					@if(@order.Candy.IsOnSale == true)
-					{
-						var currencyTotal = order.Price * @Model.currencyExchangeRate;
-						<td class="text-danger">@String.Format("{0:0.00}", currencyTotal) @Model.currency</td>
-					} 
-					@if(@order.Candy.IsOnSale != true)
-					{
-						var currencyTotal = order.Price * @Model.currencyExchangeRate;
-						<td>@String.Format("{0:0.00}", currencyTotal) @Model.currency</td>
+					var currencyTotal = order.Price * @Model.currencyExchangeRate;
+					<td class="text-danger">@String.Format("{0:0.00}", currencyTotal) @Model.currency</td>
+				}
+				@if (@order.Candy.ActiveSale is null)
+				{
+					var currencyTotal = order.Price * @Model.currencyExchangeRate;
+					<td>@String.Format("{0:0.00}", currencyTotal) @Model.currency</td>
 
-					}
 				}
-				@if(@Model.currencyExchangeRate == null)
+			}
+			@if (@Model.currencyExchangeRate == null)
+			{
+				@if (@order.Candy.ActiveSale is not null)
 				{
-					@if(@order.Candy.IsOnSale == true)
-					{
-						<td class="text-danger">@order.Candy.SalePrice</td>
-					} 
-					@if(@order.Candy.IsOnSale != true)
-					{
-						<td>@order.Price</td>
-					}
+					<td class="text-danger">@order.Candy.ActivePrice</td>
 				}
-				
-				
-			</tr>
-		}
+				@if (@order.Candy.ActiveSale is null)
+				{
+					<td>@order.Price</td>
+				}
+			}
+
+
+		</tr>
+	}
 
 	</tbody>
 </table>

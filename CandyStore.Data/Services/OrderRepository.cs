@@ -2,7 +2,6 @@
 using CandyStore.Data.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace CandyStore.Data.Services;
@@ -12,7 +11,7 @@ public class OrderRepository : IOrderRepository
     readonly DataContext _context;
     readonly ShoppingCart _shoppingCart;
 
-    private readonly string apikey = "S5b154FjetTiKjcj1czRYy5Uk3Nz5vcGXFAAMkAC";
+    readonly string apikey = "S5b154FjetTiKjcj1czRYy5Uk3Nz5vcGXFAAMkAC";
 
     public OrderRepository(DataContext context, ShoppingCart shoppingCart)
     {
@@ -24,12 +23,12 @@ public class OrderRepository : IOrderRepository
     {
         return _context.Orders;
     }
+
     public Order GetOrderById(int id)
     {
-
         return _context.Orders.FirstOrDefault(o => o.OrderID == id);
-
     }
+
     public IEnumerable<OrderDetail> GetOrderDetails(int id)
     {
         return _context.OrderDetails.Include(od => od.Candy).Where(o => o.OrderID == id);
@@ -49,16 +48,18 @@ public class OrderRepository : IOrderRepository
             var orderDetail = new OrderDetail
             {
                 Amount = shoppingCartItem.Amount,
-                Price = shoppingCartItem.Candy.Price,
+                Price = shoppingCartItem.Candy.ActivePrice,
                 CandyID = shoppingCartItem.Candy.CandyID,
-                OrderID = order.OrderID
+                OrderID = order.OrderID,
             };
 
             _context.OrderDetails.Add(orderDetail);
             _context.SaveChanges();
         }
+
         ;
     }
+
     [HttpGet]
     public async Task<string> currencyChangeAsync(string newCurrency)
     {
@@ -76,11 +77,11 @@ public class OrderRepository : IOrderRepository
 
             using (var stream = new StreamReader(streambody))
             {
-                string json = stream.ReadToEnd();
+                var json = stream.ReadToEnd();
                 result = JObject.Parse(json)["data"][newCurrency]["value"].ToString();
             }
         }
-        return result;
 
+        return result;
     }
 }

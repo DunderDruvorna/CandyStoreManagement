@@ -1,43 +1,52 @@
-﻿@model IEnumerable<Candy>
+﻿@model StockViewModel
 
+<h1 class="display-4">Stock</h1>
 
-<div class="container p-3">
-    <h1 class="text-center">Candy Stock</h1>
-</div>
-
-<table class="table table-bordered table-striped" style="width:100%">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                In Stock
-            </th>
-        </tr>
-
-
-    </thead>
-
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                
-                <td>
-                    @item.Name
-                </td>
-                <td>
-                    @item.StockCount
-                </td>
-                
-                <td class="text-center">
-                    <div class="w-75 btn-group justify-content-center" role="group">
-                        <a asp-controller="Stock" asp-action="AddToStock" asp-route-id="@item.CandyID" class="btn btn-primary mx-2">Add to stock</a>
-                        
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
+<table class="table table-hover container">
+	<thead>
+	<tr>
+		<th>#</th>
+		<th>Name</th>
+		<th>Category</th>
+		<th>Description</th>
+		<th>Price</th>
+		<th>Sale</th>
+		<th>In Stock</th>
+		<th></th>
+	</tr>
+	</thead>
+	<tbody>
+	@foreach (var candy in Model.CandyList)
+	{
+		<tr class="@(candy.Stock <= 0 ? "table-secondary" : "")">
+			<th>
+				@candy.CandyID
+			</th>
+			<td>
+				@candy.Name
+			</td>
+			<td>
+				@candy.Category?.Name
+			</td>
+			<td>
+				@candy.Description
+			</td>
+			<td class="@(candy.ActiveSale is not null ? "text-success" : "")">
+				@candy.ActivePrice.ToString("c")
+			</td>
+			<td>
+				@(candy.ActiveSale?.Discount is not null ? $"{candy.ActiveSale.Discount}%" : "")
+			</td>
+			<td>
+				@candy.Stock
+			</td>
+			<td>
+				@Html.ActionLink("Remove", "", new { id = candy.CandyID })
+			</td>
+		</tr>
+	}
+	</tbody>
+	<tfoot>
+	@*<partial name="Create" model="@(new CreateCandyViewModel(Model.Categories))"/>*@
+	</tfoot>
 </table>

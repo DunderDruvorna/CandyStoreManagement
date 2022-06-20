@@ -1,10 +1,8 @@
 ﻿using CandyStore.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using CandyStore.Data;
-using System.Linq;
 using CandyStore.Data.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace CandyStore.Services;
+namespace CandyStore.Data.Services;
 
 public class CandyRepository : ICandyRepository
 {
@@ -17,21 +15,19 @@ public class CandyRepository : ICandyRepository
 
     public IEnumerable<Candy> GetAllCandy()
     {
-        CheckIfCandyStillOnSale();
-        return _context.Candy.Include(c => c.Category);
+        return _context.Candy.Include(c => c.Category).Include(c => c.Sales);
     }
 
     public IEnumerable<Candy> GetCandyOnSale()
     {
-        CheckIfCandyStillOnSale();
-        return _context.Candy.Include(c => c.Category).Where(p => p.IsOnSale);
+        return _context.Sales.SelectMany(s => s.Candy).Include(c => c.Category);
     }
 
     public Candy? GetCandy(int id)
     {
-        CheckIfCandyStillOnSale();
-        return _context.Candy.FirstOrDefault(c => c.CandyID == id);
+        return _context.Candy.Include(c => c.Category).Include(c => c.Sales).FirstOrDefault(c => c.CandyID == id);
     }
+
     public Candy UpdateCandy(Candy updatedCandy)
     {
         var OldCandy = _context.Candy.FirstOrDefault(c => c.CandyID == updatedCandy.CandyID);
@@ -41,32 +37,33 @@ public class CandyRepository : ICandyRepository
             _context.SaveChanges();
             return updatedCandy;
         }
+
         return updatedCandy;
     }
-    public void CheckIfCandyStillOnSale()
+
+    public Candy AddCandy(Candy candy)
     {
-        var candyNotOnSaleAnymore = _context.Candy.Where(c => c.SaleEnd.Date < DateTime.UtcNow.Date);
-        if (candyNotOnSaleAnymore != null)
+        var newCandy = _context.Candy.Add(new Candy
         {
-            foreach (var candy in candyNotOnSaleAnymore)
-            {
-                candy.IsOnSale = false;
-                candy.SaleStart = default(DateTime);
-                candy.SaleEnd = default(DateTime);
-                candy.SalePrice = 0;
+            Name = candy.Name,
+            CategoryID = candy.CategoryID,
+            Description = candy.Description,
+            Price = candy.Price,
+        });
+        _context.SaveChanges();
 
-            }
-            _context.SaveChanges();
-        }
-        var candyStartSale = _context.Candy.Where(c => c.SaleStart.Date == DateTime.UtcNow.Date);
-        if (candyStartSale != null)
-        {
-            foreach (var candy in candyStartSale)
-            {
-                candy.IsOnSale = true;
-            }
-            _context.SaveChanges();
-        }
+        return newCandy.Entity;
+    }
 
+    public Candy? RemoveCandy(int id)
+    {
+        var candy = _context.Candy.FirstOrDefault(c => c.CandyID == id);
+        if (candy is null)
+            return null;
+
+        _context.Candy.Remove(candy);
+        _context.SaveChanges();
+
+        return candy;
     }
 }
