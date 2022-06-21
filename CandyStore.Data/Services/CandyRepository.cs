@@ -15,12 +15,12 @@ public class CandyRepository : ICandyRepository
 
     public IEnumerable<Candy> GetAllCandy()
     {
-        return _context.Candy.Include(c => c.Category).Include(c => c.Sales);
+        return _context.Candy.Include(c => c.Category).Include(c => c.Sales).ToList();
     }
 
     public IEnumerable<Candy> GetCandyOnSale()
     {
-        return _context.Sales.SelectMany(s => s.Candy).Include(c => c.Category);
+        return _context.Sales.SelectMany(s => s.Candy).Include(c => c.Category).ToList();
     }
 
     public Candy? GetCandy(int id)
@@ -33,12 +33,18 @@ public class CandyRepository : ICandyRepository
         var OldCandy = _context.Candy.FirstOrDefault(c => c.CandyID == updatedCandy.CandyID);
         if (OldCandy != null)
         {
-            OldCandy = updatedCandy;
+            OldCandy.Name = updatedCandy.Name;
+            OldCandy.Description = updatedCandy.Description;
+            OldCandy.CategoryID = updatedCandy.CategoryID;
+            OldCandy.Price = updatedCandy.Price;
+            OldCandy.Sales = updatedCandy.Sales;
+            OldCandy.Stock = updatedCandy.Stock;
+
             _context.SaveChanges();
-            return updatedCandy;
+            return OldCandy;
         }
 
-        return updatedCandy;
+        return OldCandy;
     }
 
     public Candy AddCandy(Candy candy)

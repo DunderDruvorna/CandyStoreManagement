@@ -1,0 +1,32 @@
+﻿@model EditCandyViewModel
+
+<form asp-action="Edit" method="post">
+	@Html.HiddenFor(m => m.Candy.CandyID)
+
+	<div class="mb-3">
+		<h1 class="form-label">#@Model.Candy.CandyID - @Model.Candy.Name</h1>
+		<label class="form-label">Name</label>
+		<input asp-for="@Model.Candy.Name" type="text" class="form-control" required="required"/>
+
+		<label class="form-label">Category</label>
+		<select asp-for="Candy.CategoryID" class="form-control">
+			@foreach (var category in Model.Categories)
+			{
+				<option value="@category.CategoryID">@category.Name</option>
+			}
+		</select>
+
+		<label class="form-label">Description</label>
+		<input asp-for="@Model.Candy.Description" type="text" class="form-control"/>
+
+		<label class="form-label">Price</label>
+		<input asp-for="@Model.Candy.Price" min="0" step="0.01" class="form-control"/>
+
+		<label class="form-label">In Stock</label>
+		<input asp-for="@Model.Candy.Stock" min="0" step="1" class="form-control"/>
+	</div>
+	<div>
+		<button type="submit" class="btn btn-primary">Save changes</button>
+		<a class="btn btn-secondary" asp-action="Index">Cancel</a>
+	</div>
+</form>

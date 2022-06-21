@@ -33,11 +33,11 @@
 				@sale.EndDate.ToShortDateString()
 			</td>
 			<td>
-				@Html.ActionLink("Remove", "", new { id = sale.SaleID })
+				<a asp-action="Edit" asp-route-id="@sale.SaleID">Edit</a>
+				<a asp-action="Remove" asp-route-id="@sale.SaleID">Remove</a>
 			</td>
 		</tr>
 	}
 	</tbody>
+	<partial name="Create" model="new Sale()"/>
 </table>
-
-@Html.ActionLink("Create", "Create")

@@ -1,28 +1,17 @@
-﻿@model CreateSaleViewModel
+﻿@model Sale
 
-<div class="row">
-	<div class="col-6">
-		<div class="card">
-			<div class="card-header">
-				<h5>Create new Sale</h5>
-			</div>
-			<div class="card-body">
-				@Html.BeginForm("CreateSale", "Sale", FormMethod.Post)
-					<div class="mb-3">
-						<label class="form-label">Sale</label>
-						<label class="form-label">Select Candy</label>
-						@Html.ListBoxFor(m => m.SelectedCandy, new MultiSelectList(Model.AllCandy, "CandyID", "Name"))
-						<label class="form-label">Discount Percentage</label>
-						@Html.TextBoxFor(m => m.Sale.Discount, new { type="number", min="1", max="100", step="1", @class="form-control", required="required"})
-						<label class="form-label">Sale Start</label>
-						@Html.TextBoxFor(m => m.Sale.StartDate, new { type="date", @class="form-control", required="required"})
-						<label class="form-label">Sale End</label>
-						@Html.TextBoxFor(m => m.Sale.EndDate, new { type = "date", @class = "form-control", required = "required" })
-					</div>
-				<div class="mb-3">
-					<button type="submit" class="btn btn-primary">Save</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<tfoot>
+<tr>
+	@using (Html.BeginForm("Create", "Sale", Model, FormMethod.Post))
+	{
+		<th></th>
+		<td>@Html.EditorFor(model => model.Discount)</td>
+		<td></td>
+		<td>@Html.EditorFor(model => model.StartDate)</td>
+		<td>@Html.EditorFor(model => model.EndDate)</td>
+		<td>
+			<input type="submit" value="Create"/>
+		</td>
+	}
+</tr>
+</tfoot>

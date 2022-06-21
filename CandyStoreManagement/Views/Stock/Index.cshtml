@@ -1,4 +1,4 @@
-﻿@model StockViewModel
+﻿@model IEnumerable<Candy>
 
 <h1 class="display-4">Stock</h1>
 
@@ -16,7 +16,7 @@
 	</tr>
 	</thead>
 	<tbody>
-	@foreach (var candy in Model.CandyList)
+	@foreach (var candy in Model)
 	{
 		<tr class="@(candy.Stock <= 0 ? "table-secondary" : "")">
 			<th>
@@ -41,12 +41,11 @@
 				@candy.Stock
 			</td>
 			<td>
-				@Html.ActionLink("Remove", "", new { id = candy.CandyID })
+				<a asp-action="Edit" asp-route-id="@candy.CandyID">Edit</a>
+				<a asp-action="Remove" asp-route-id="@candy.CandyID">Remove</a>
 			</td>
 		</tr>
 	}
 	</tbody>
-	<tfoot>
-	@*<partial name="Create" model="@(new CreateCandyViewModel(Model.Categories))"/>*@
-	</tfoot>
+	<partial name="Create" model="new Candy()"/>
 </table>

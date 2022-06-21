@@ -115,6 +115,11 @@ public class SaleRepository : ISaleRepository
         return _context.Sales.Include(s => s.Candy).ToList();
     }
 
+    public Sale? GetSale(int id)
+    {
+        return _context.Sales.Include(s => s.Candy).FirstOrDefault(s => s.SaleID == id);
+    }
+
     public Sale? SetSaleDiscount(int saleID, int discount)
     {
         var sale = _context.Sales.FirstOrDefault(s => s.SaleID == saleID);

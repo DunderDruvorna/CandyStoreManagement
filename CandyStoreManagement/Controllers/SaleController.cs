@@ -27,18 +27,37 @@ public class SaleController : Controller
 
     public IActionResult Create()
     {
-        return View(new CreateSaleViewModel(_candyRepository.GetAllCandy()));
+        ViewBag.AllCandy = _candyRepository.GetAllCandy();
+
+        return View(new Sale());
     }
 
-    public IActionResult CreateSale(CreateSaleViewModel createSaleModel)
+    [HttpPost]
+    public IActionResult Create(Sale model)
     {
-        _salesRepository.CreateSale(new Sale
-        {
-            Discount = createSaleModel.Sale.Discount,
-            Candy = createSaleModel.SelectedCandy.Select(c => _candyRepository.GetCandy(c) ?? new Candy()).ToList(),
-            StartDate = createSaleModel.Sale.StartDate,
-            EndDate = createSaleModel.Sale.EndDate,
-        });
+        _salesRepository.CreateSale(model);
+
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Edit(int id)
+    {
+        var sale = _salesRepository.GetSale(id);
+
+        if (sale is null) return BadRequest();
+
+        return View(new EditSaleViewModel(sale, _categoriesRepository.GetCategories(), _candyRepository.GetAllCandy()));
+    }
+
+    [HttpPost]
+    public IActionResult Edit(EditSaleViewModel model)
+    {
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Remove(int id)
+    {
+        _candyRepository.RemoveCandy(id);
 
         return RedirectToAction("Index");
     }
