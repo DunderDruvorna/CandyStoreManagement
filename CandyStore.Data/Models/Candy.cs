@@ -13,9 +13,8 @@ public partial class Candy
     public bool IsInStock { get; set; }
     public int CategoryID { get; set; }
     public Category? Category { get; set; }
-    //public int StockCount { get; set; }
-
 }
+
 public partial class Candy
 {
     //Sale 
@@ -26,8 +25,4 @@ public partial class Candy
     public decimal? SalePrice { get; set; }
 
     public bool IsOnSale { get; set; }
-}
-public partial class Candy
-{
-    public int StockCount { get; set; }
 }
