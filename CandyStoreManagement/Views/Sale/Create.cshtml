@@ -1,14 +1,14 @@
-﻿@model Sale
+﻿@model CreateSaleViewModel
 
 <tfoot>
 <tr>
 	@using (Html.BeginForm("Create", "Sale", Model, FormMethod.Post))
 	{
-		<th></th>
-		<td>@Html.EditorFor(model => model.Discount)</td>
-		<td></td>
-		<td>@Html.EditorFor(model => model.StartDate)</td>
-		<td>@Html.EditorFor(model => model.EndDate)</td>
+		<th>+</th>
+		<td>@Html.EditorFor(model => model.Sale.Discount)</td>
+		<td>@Html.ListBoxFor(model => model.SelectedCandy, new MultiSelectList(Model.AllCandy, "CandyID", "Name"))</td>
+		<td>@Html.EditorFor(model => model.Sale.StartDate)</td>
+		<td>@Html.EditorFor(model => model.Sale.EndDate)</td>
 		<td>
 			<input type="submit" value="Create"/>
 		</td>

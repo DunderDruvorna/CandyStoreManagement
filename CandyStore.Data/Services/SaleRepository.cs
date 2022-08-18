@@ -51,65 +51,6 @@ public class SaleRepository : ISaleRepository
         return sale;
     }
 
-    public Sale? SetSaleDiscount(int saleID, decimal discount)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Sale? SetSaleStart(int saleID, DateTime date)
-    {
-        var sale = _context.Sales.FirstOrDefault(s => s.SaleID == saleID);
-
-        if (sale is null)
-            return sale;
-
-        sale.StartDate = date;
-        _context.SaveChanges();
-
-        return sale;
-    }
-
-    public Sale? SetSaleEnd(int saleID, DateTime date)
-    {
-        var sale = _context.Sales.FirstOrDefault(s => s.SaleID == saleID);
-
-        if (sale is null)
-            return sale;
-
-        sale.EndDate = date;
-        _context.SaveChanges();
-
-        return sale;
-    }
-
-    public bool AddCandyToSale(int saleID, int candyID)
-    {
-        var sale = _context.Sales.Include(s => s.Candy).FirstOrDefault(s => s.SaleID == saleID);
-        var candy = _context.Candy.FirstOrDefault(c => c.CandyID == candyID);
-
-        if (sale is null || candy is null)
-            return false;
-
-        sale.Candy.Add(candy);
-        _context.SaveChanges();
-
-        return true;
-    }
-
-    public bool RemoveCandyFromSale(int saleID, int candyID)
-    {
-        var sale = _context.Sales.Include(s => s.Candy).FirstOrDefault(s => s.SaleID == saleID);
-        var candy = _context.Candy.FirstOrDefault(c => c.CandyID == candyID);
-
-        if (sale is null || candy is null || !sale.Candy.Contains(candy))
-            return false;
-
-        sale.Candy.Remove(candy);
-        _context.SaveChanges();
-
-        return true;
-    }
-
     public IEnumerable<Sale> GetSales()
     {
         return _context.Sales.Include(s => s.Candy).ToList();
@@ -120,16 +61,18 @@ public class SaleRepository : ISaleRepository
         return _context.Sales.Include(s => s.Candy).FirstOrDefault(s => s.SaleID == id);
     }
 
-    public Sale? SetSaleDiscount(int saleID, int discount)
+    public Sale? UpdateSale(Sale updatedSale)
     {
-        var sale = _context.Sales.FirstOrDefault(s => s.SaleID == saleID);
+        var sale = _context.Sales.FirstOrDefault(s => s.SaleID == updatedSale.SaleID);
 
-        if (sale is null)
-            return null;
+        if (sale is null) return sale;
 
-        sale.Discount = discount;
+        sale.Discount = updatedSale.Discount;
+        sale.Candy = updatedSale.Candy;
+        sale.StartDate = updatedSale.StartDate;
+        sale.EndDate = updatedSale.EndDate;
+
         _context.SaveChanges();
-
         return sale;
     }
 }

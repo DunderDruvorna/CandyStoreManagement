@@ -8,6 +8,8 @@
 		<label class="form-label">Discount %</label>
 		<input asp-for="@Model.Sale.Discount" type="number" class="form-control" required="required"/>
 
+		@Html.ListBoxFor(model => model.SelectedCandy, new MultiSelectList(Model.AllCandy, "CandyID", "Name", Model.Sale.Candy.Select(c => c.CandyID)))
+
 		<label class="form-label">Start Date</label>
 		<input asp-for="@Model.Sale.StartDate" type="date" required="required"/>
 

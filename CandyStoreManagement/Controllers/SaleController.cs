@@ -1,5 +1,4 @@
-﻿using CandyStore.Data.Models;
-using CandyStore.Data.Services.Interfaces;
+﻿using CandyStore.Data.Services.Interfaces;
 using CandyStore.Data.Services.Wrapper;
 using CandyStoreManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -21,21 +20,27 @@ public class SaleController : Controller
 
     public IActionResult Index()
     {
+        ViewBag.AllCandy = _candyRepository.GetAllCandy();
         ViewBag.Categories = _categoriesRepository.GetCategories();
         return View(_salesRepository.GetSales());
     }
 
-    public IActionResult Create()
-    {
-        ViewBag.AllCandy = _candyRepository.GetAllCandy();
-
-        return View(new Sale());
-    }
-
     [HttpPost]
-    public IActionResult Create(Sale model)
+    public IActionResult Create(CreateSaleViewModel model)
     {
-        _salesRepository.CreateSale(model);
+        var sale = model.Sale;
+        var allCandy = _candyRepository.GetAllCandy();
+
+        foreach (var candyID in model.SelectedCandy)
+        {
+            var candy = allCandy.FirstOrDefault(c => c.CandyID == candyID);
+
+            if (candy is null) continue;
+
+            sale.Candy.Add(candy);
+        }
+
+        _salesRepository.CreateSale(sale);
 
         return RedirectToAction("Index");
     }
@@ -46,12 +51,26 @@ public class SaleController : Controller
 
         if (sale is null) return BadRequest();
 
-        return View(new EditSaleViewModel(sale, _categoriesRepository.GetCategories(), _candyRepository.GetAllCandy()));
+        return View(new EditSaleViewModel(sale, _candyRepository.GetAllCandy()));
     }
 
     [HttpPost]
     public IActionResult Edit(EditSaleViewModel model)
     {
+        var sale = model.Sale;
+        var allCandy = _candyRepository.GetAllCandy();
+
+        foreach (var candyID in model.SelectedCandy)
+        {
+            var candy = allCandy.FirstOrDefault(c => c.CandyID == candyID);
+
+            if (candy is null) continue;
+
+            sale.Candy.Add(candy);
+        }
+
+        _salesRepository.UpdateSale(sale);
+
         return RedirectToAction("Index");
     }
 
