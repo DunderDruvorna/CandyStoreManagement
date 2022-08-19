@@ -1,0 +1,19 @@
+﻿@model Candy
+
+<tfoot>
+<tr>
+	@using (Html.BeginForm("Create", "Stock", Model, FormMethod.Post))
+	{
+		<th></th>
+		<td>@Html.EditorFor(model => model.Name)</td>
+		<td>@Html.DropDownListFor(model => model.CategoryID, new SelectList(ViewBag.Categories, "CategoryID", "Name"), "Select Category")</td>
+		<td>@Html.EditorFor(model => model.Description)</td>
+		<td>@Html.TextBoxFor(model => model.Price, new { type = "number", min = "0", step = "0.01" })</td>
+		<td>@Html.ListBoxFor(model => model.Sales, new MultiSelectList(ViewBag.Sales, "SaleID", "Discount"))</td>
+		<td>@Html.EditorFor(model => model.Stock, new { type="number", min="0", step="1" })</td>
+		<td>
+			<input type="submit" value="Create"/>
+		</td>
+	}
+</tr>
+</tfoot>

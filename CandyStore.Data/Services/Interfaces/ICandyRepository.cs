@@ -8,4 +8,6 @@ public interface ICandyRepository
     IEnumerable<Candy> GetCandyOnSale();
     Candy? GetCandy(int id);
     Candy UpdateCandy(Candy updatedCandy);
+    Candy AddCandy(Candy candy);
+    Candy? RemoveCandy(int id);
 }

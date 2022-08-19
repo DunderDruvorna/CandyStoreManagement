@@ -8,4 +8,5 @@ public interface IRepositoryWrapper
     ICategoryRepository Categories { get; }
     IOrderRepository Orders { get; }
     ITemplateRepository Template { get; }
+    ISaleRepository Sales { get; }
 }

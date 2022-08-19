@@ -1,91 +1,79 @@
-﻿using CandyStore.Data;
-using CandyStore.Data.Models;
+﻿using CandyStore.Data.Models;
 using CandyStore.Data.Services.Interfaces;
 using CandyStore.Data.Services.Wrapper;
-using CandyStore.ViewModels;
+using CandyStoreManagement.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CandyStoreManagement.Controllers
+namespace CandyStoreManagement.Controllers;
+
+public class StockController : Controller
 {
-    public class StockController : Controller
+    readonly ICandyRepository _candyRepository;
+    readonly ICategoryRepository _categoryRepository;
+    readonly ISaleRepository _saleRepository;
+
+    public StockController(IRepositoryWrapper repository)
     {
-        //private readonly DataContext _dataContext;
+        _candyRepository = repository.Candy;
+        _categoryRepository = repository.Categories;
+        _saleRepository = repository.Sales;
+    }
 
-        //public StockController(DataContext dataContext)
-        //{
-        //    _dataContext = dataContext;
-        //}
-        //public IActionResult Index()
-        //{
-        //    IEnumerable<Candy> candyList = _dataContext.Candy;
-        //    return View(candyList);
-        //}
-        ////Get
-        //public IActionResult Adding(int? id)
-        //{
-        //    if (id == null || id == 0)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var candy = _dataContext.Candy.Find(id);
-        //    if (candy == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(candy);
-        //}
-        ////Post
-        //[HttpPost]
-        ////Candy candy
-        //public IActionResult Adding(Candy candy)
-        //{
+    public IActionResult Index()
+    {
+        var candy = _candyRepository.GetAllCandy();
 
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    var item = candy.StockCount + 1;
-        //    //    _dataContext.Candy.Update(item);
-        //    //    _dataContext.SaveChanges();
-        //    //    return RedirectToAction("Index");
-        //    //}
-        //    //return View(candy);
+        ViewBag.Categories = _categoryRepository.GetCategories();
+        ViewBag.Sales = _saleRepository.GetSales();
 
+        return View(candy);
+    }
 
-        //}
+    public IActionResult Create()
+    {
+        ViewBag.Categories = _categoryRepository.GetCategories();
+        ViewBag.Sales = _saleRepository.GetSales();
 
-        private readonly ICandyRepository _candyRepository;
+        return View(new Candy());
+    }
 
-        public StockController(IRepositoryWrapper candyRepository)
+    [HttpPost]
+    public IActionResult Create(Candy candy)
+    {
+        try
         {
-            _candyRepository = candyRepository.Candy;
+            _candyRepository.AddCandy(candy);
         }
-        public IActionResult Index()
+        catch
         {
-            IEnumerable<Candy> candyList = _candyRepository.GetAllCandy();
-            return View(candyList);
-        }
-        //Get
-        public IActionResult AddToStock(int id)
-        {
-            var candyListViewModel = new CandyListViewModel();
-            candyListViewModel.Stock = _candyRepository.GetCandy(id);
-            if (candyListViewModel.Stock == null)
-            {
-                return NotFound();
-            }
-            return View(candyListViewModel);
-        }
-
-        public IActionResult AddToStockResult(CandyListViewModel candyList)
-        {
-            var candy = _candyRepository.GetCandy(candyList.Stock.CandyID);
-            candy.StockCount = candyList.Stock.StockCount + candy.StockCount;
-                
-            _candyRepository.UpdateCandy(candy);
-             
             return RedirectToAction("Index");
-
         }
 
+        return RedirectToAction("Index");
+    }
 
+    public IActionResult Edit(int id)
+    {
+        var candy = _candyRepository.GetCandy(id);
+        var categories = _categoryRepository.GetCategories();
+        var sales = _saleRepository.GetSales();
+        if (candy is null) return BadRequest();
+
+        return View(new EditCandyViewModel(candy, categories, sales));
+    }
+
+    [HttpPost]
+    public IActionResult Edit(EditCandyViewModel model)
+    {
+        _candyRepository.UpdateCandy(model.Candy);
+
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Remove(int id)
+    {
+        _candyRepository.RemoveCandy(id);
+
+        return RedirectToAction("Index");
     }
 }

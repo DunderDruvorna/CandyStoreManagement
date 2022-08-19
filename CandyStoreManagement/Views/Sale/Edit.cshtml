@@ -1,0 +1,23 @@
+﻿@model EditSaleViewModel
+
+<form asp-action="Edit" method="post">
+	@Html.HiddenFor(m => m.Sale.SaleID)
+
+	<div class="mb-3">
+		<h1 class="form-label">#@Model.Sale.SaleID - @Model.Sale.Discount%</h1>
+		<label class="form-label">Discount %</label>
+		<input asp-for="@Model.Sale.Discount" type="number" class="form-control" required="required"/>
+
+		@Html.ListBoxFor(model => model.SelectedCandy, new MultiSelectList(Model.AllCandy, "CandyID", "Name", Model.Sale.Candy.Select(c => c.CandyID)))
+
+		<label class="form-label">Start Date</label>
+		<input asp-for="@Model.Sale.StartDate" type="date" required="required"/>
+
+		<label class="form-label">End Date</label>
+		<input asp-for="@Model.Sale.EndDate" type="date" required="required"/>
+	</div>
+	<div>
+		<button type="submit" class="btn btn-primary">Save changes</button>
+		<a class="btn btn-secondary" asp-action="Index">Cancel</a>
+	</div>
+</form>
